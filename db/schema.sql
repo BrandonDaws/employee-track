@@ -1,12 +1,13 @@
+DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS role;
-DROP TABLE IF EXISTS employee;
+
 
 
 /* Notice the id is created in the department table BUT then it is passed to role using the FOREIGN KEY*/
 CREATE TABLE department(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role(
@@ -23,7 +24,8 @@ CREATE TABLE employee (
     last_name VARCHAR(30) NOT NULL,
     role_id INT NULL,
     manager_id INT,
-    FOREIGN KEY (role_id) REFERENCES role(id)
+    FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE SET NULL,
+    FOREIGN key (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
 
 
