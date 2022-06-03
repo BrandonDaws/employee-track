@@ -10,22 +10,31 @@ CREATE TABLE department(
     name VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE roles(
-    id INT PRIMARY KEY ,
+ CREATE TABLE roles(
+    id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(30) NOT NULL,
     salary DECIMAL NOT NULL,
     department_id INT NOT NULL,
-    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(id)
+  FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
+CREATE TABLE employee(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30)NOT NULL,
+    role_id INT NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+
+
+/*
 CREATE TABLE employee (
     id INT PRIMARY KEY ,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
-    roles_id INT NULL,
-    manager_id INT,
-    FOREIGN KEY (roles_id) REFERENCES roles(id) ON DELETE SET NULL,
-    FOREIGN key (manager_id) REFERENCES employee(id) ON DELETE SET NULL
+    role_id INT,
+    FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
 

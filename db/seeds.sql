@@ -1,5 +1,3 @@
-USE employee_tracker_db;
-
 INSERT INTO department(name) 
 VALUES ("Sales"), 
 ("Customer Service"), 
@@ -17,16 +15,9 @@ INSERT INTO roles (title, salary, department_id)
  ("Engineer", 100000, 3),
  ("Technician", 70000, 4), 
  ("Lead Technician", 80000, 4), 
- ("Lead Customer Rep", 60000, 2)
+ ("Lead Customer Rep", 60000, 2);
 
-
-
- INSERT INTO employee (first_name, last_name, roles_id, manager_id)
- VALUES ("Brandon", "Dawson", 1, NULL ),
- ("Victor", "lujan", 2, NULL ),
- ("Tony", "Tran", 3, NULL),
-("Vincent", "thomas", 4, NULL),
-("Pat", "Mahomes", 5, 3 ),
-("Peter", "Park", 6, 4),
-("Katy", "Spanks", 7, 1),
-("julio", "ernesto", 6, 4)
+INSERT INTO employee (first_name, last_name, role_id)
+VALUES ("brandon", "daws", 1),
+("rachyl", "ban", 2),
+("peter", "park", 3);

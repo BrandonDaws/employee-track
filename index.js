@@ -126,22 +126,73 @@ const allEmployees = () => {
 function addDepartment() {
     inquirer.prompt([
         {
-            name: 'newDepartment',
             type: 'input',
+            name: 'dept',
             message: 'what is the name of the department?'
         }
-    ])
-    .then(({newDepartment}) => {
-        db.query("INSERT INTO department(name) SET ?",
+    ]).then(answer => {
+        const sql = "INSERT INTO department (name) VALUES (?)";
+
+        db.query(sql, answer.dept , (err,res) =>{
+            if (err) throw (err);
+            console.log("You've added a new department");
+            db.query("SELECT * FROM department",(err,res) => {
+                console.table(res);
+                if(err) throw (err);
+                startPrompt();
+        });
+        
+        });
+    });
+};
+
+
+function addRole() {
+    inquirer.prompt ([
         {
-            department_names: newDepartment
+            type: 'input',
+            name: 'title',
+            message: 'What is the roles title?'
         },
-        );
-        console.log("You've added a new department");
-        db.query("SELECT * FROM department",(err,res) => {
-            console.table(res);
-            startPrompt();
-        })
+        {
+            type: 'input',
+            name: 'sal',
+            message: 'What is this roles salary?'
+        }
+    ])
+    .then(answers => {
+        //Get list of departments
+       const params = [answers.title, answers.sal];
+
+       const getDept = `SELECT name, id FROM department`;
+
+       db.query(getDept, (err, data) => {
+           if (err) throw (err);
+           const depart = data.map(({ name, id }) => ({ name: name, value: id }));
+
+           inquirer.prompt([
+               {
+                   type: 'list',
+                   name: 'depart',
+                   message: 'Which department is this role under?',
+                   choices: depart
+               }
+           ])
+           .then(departmentChoice => {
+               //Add new department
+               const depart = departmentChoice.depart;
+               params.push(depart);
+
+               const sql = `INSERT INTO roles (title, salary, department_id)
+                            VALUES (?,?,?)`;
+
+                db.query(sql, params, (err, res) => {
+                    if (err) throw (err);
+                    console.log("Role added!");
+                    allRoles();
+                });
+           });
+       });
     });
 };
 
