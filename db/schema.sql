@@ -27,28 +27,3 @@ CREATE TABLE employee(
     FOREIGN KEY (role_id) REFERENCES roles(id),
     FOREIGN KEY (manager_id) REFERENCES roles(id)
 );
-
-
-
-/*
-CREATE TABLE employee (
-    id INT PRIMARY KEY ,
-    first_name VARCHAR(30) NOT NULL,
-    last_name VARCHAR(30) NOT NULL,
-    role_id INT,
-    FOREIGN KEY (role_id) REFERENCES roles(id)
-);
-
-
-
-/*
-NEXT STEPS 
-SEEDS -> REMEMBER TO USE INSERT INTO(REFERENCE TABLE NAME THAT APPLIES)
-   -establish the values for each table
-   -reference u-develop-it
-
-SERVER 
-
-INQUIRER- 
-  -create function for each inquirer selection available (add,delete,update)
-*/
