@@ -189,7 +189,8 @@ function addRole() {
 
                 db.query(sql, params, (err, res) => {
                     if (err) throw (err);
-                    console.log("Role added!");
+                    console.table(res);
+                    console.log("Role successfully added!")
                     allRoles();
                 });
            });
@@ -257,6 +258,7 @@ function addEmployee() {
 
                         db.query(sql, params, (err, res) => {
                             if (err) throw (err);
+                            console.table(res);
                             console.log('Employee has been added to database.')
                             allEmployees();
                         });
