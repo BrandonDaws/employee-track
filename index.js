@@ -1,3 +1,4 @@
+const { type } = require('express/lib/response');
 const inquirer = require('inquirer');
 const db = require('./db/connection');
 
@@ -194,6 +195,76 @@ function addRole() {
            });
        });
     });
+};
+
+function addEmployee() {
+    inquirer.prompt ([
+        {
+            type: 'input',
+            name: 'first',
+            message: "What is the employee's first name?"
+        },
+        {
+            type: 'input',
+            name: 'last',
+            message: "What is the employee's last name?"
+        }
+    ])
+    .then(answers => {
+        //get list of roles
+       const params = [answers.first, answers.last];
+
+       const getRole = `SELECT roles.id, roles.title FROM roles`;
+
+       db.query(getRole, (err, data) => {
+           if (err) throw (err);
+           const role = data.map(({ id, title }) => ({ name: title, value: id }));
+
+           inquirer.prompt([
+               {
+                   type: 'list',
+                   name: 'role',
+                   message: "What is the employee's role?",
+                   choices: role
+               }
+           ])
+           .then(roleCreate => {
+               //get list of managers
+               const role = roleCreate.role;
+               params.push(role);
+
+               const managerSql = `SELECT * FROM employee`;
+
+               db.query(managerSql, (err, data) => {
+                    if (err) throw (err);
+                    const managers = data.map(({ id, first_name, last_name }) => ({ name: first_name + " "+ last_name, value: id }));
+
+                    inquirer.prompt([
+                        {
+                            type: 'list',
+                            name: 'manager',
+                            message: "Who is the employee's manager?",
+                            choices: managers
+                        }
+                    ])
+                    .then(managerChoice => {
+                        //Add employee
+                        const manager = managerChoice.manager;
+                        params.push(manager);
+
+                        const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                                    VALUES (?,?,?,?)`;
+
+                        db.query(sql, params, (err, res) => {
+                            if (err) throw (err);
+                            console.log('Employee has been added to database.')
+                            allEmployees();
+                        });
+                    });
+           });
+       });
+    });
+});
 };
 
 

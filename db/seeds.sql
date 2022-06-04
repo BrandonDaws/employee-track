@@ -17,7 +17,12 @@ INSERT INTO roles (title, salary, department_id)
  ("Lead Technician", 80000, 4), 
  ("Lead Customer Rep", 60000, 2);
 
-INSERT INTO employee (first_name, last_name, role_id)
-VALUES ("brandon", "daws", 1),
-("rachyl", "ban", 2),
-("peter", "park", 3);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("brandon", "daws", 1, NULL),
+("rachyl", "ban", 2, NULL),
+("peter", "park", 3, NULL),
+("Ron", "Swanson", 4, NULL),
+("gregory", "mcgregor", 5, 3),
+("bobby", "brown", 6, 4),
+("tiffany", " jenkins", 7, 1),
+("penelope", "phillips", 8, 2);
